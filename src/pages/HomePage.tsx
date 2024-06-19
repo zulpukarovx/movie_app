@@ -11,6 +11,9 @@ import {
 import MovieCard from "../components/MovieCard";
 import { MovieContext } from "../context/movieContext";
 import { useNavigate } from "react-router-dom";
+import FilterPanel from "../components/FilterPanel";
+import { useDebounce } from "use-debounce";
+import { error } from "console";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -23,28 +26,32 @@ const HomePage: React.FC = () => {
     setCurrentPage,
     setMovies,
     setTotalPages,
+    limit,
     setLimit,
+    selectedGenre,
+    rating,
+    year,
   } = useContext(MovieContext)!;
+
+  const [debouncedRating] = useDebounce(rating, 1000);
+  const [debouncedYear] = useDebounce(year, 1000);
 
   const handlePageChange = (
     _event: React.ChangeEvent<unknown>,
     value: number
   ) => {
-    // fetchMovies(value);
     setCurrentPage(value);
   };
 
   useEffect(() => {
     const getMovies = async () => {
-      const data = await fetchMovies(currentPage);
+      const data = await fetchMovies(currentPage, limit, selectedGenre, debouncedRating, debouncedYear);
         setMovies(data.docs)
         setTotalPages(data.pages)
         setLimit(data.limit)
-        console.log(data)
     }
     getMovies()
-  }, [currentPage]);
-
+  }, [currentPage, selectedGenre, debouncedRating, debouncedYear]);
 
   return (
     <section>
@@ -56,6 +63,9 @@ const HomePage: React.FC = () => {
             "Кинопоиск"
           )}
         </Typography>
+      </Box>
+      <Box>
+        <FilterPanel />
       </Box>
       <Grid
         container

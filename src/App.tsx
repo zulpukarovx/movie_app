@@ -12,8 +12,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
-            <Route path="favorites" element={<FavoritesPage />} />
             <Route path="movie/:id" element={<MovieDetails />} />
+            <Route path="favorites" element={<FavoritesPage />} />
+            <Route path="*" element={<div>Упс, такой страницы не существует</div>} />
           </Route>
         </Routes>
       </MovieProvider>

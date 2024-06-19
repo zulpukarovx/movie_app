@@ -32,8 +32,14 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
     setIsBookmarked(!isBookmarked);
   };
 
+  
   return (
-    <Card className="card">
+    <Card className="card" sx={{
+      width: 320,
+      height: 400, 
+      display: "flex",
+      flexDirection: "column",
+    }}>
       <IconButton
         onClick={(event) => toggleBookmark(event)}
         sx={{ position: "absolute", top: 8, right: 8, backgroundColor: "white", padding: 1,
@@ -45,25 +51,27 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
         {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
       </IconButton>
       <Link className="card__link" to={`/movie/${movie.id}`}>
-        {movie.poster ? (
+        {movie.poster?.url ? (
           <CardMedia
             component="img"
-            sx={{ objectFit: "contain"}}
-            image={movie.poster.previewUrl}
-            alt={movie.name}
-          />
-        ) : (
-          <CardMedia />
-        )}
+            sx={{
+              objectFit: "cover",
+            }}
+            image={movie.poster.url}
+            alt={movie.name ? movie.name : movie.alternativeName}
+            />
+          ) : (
+            <div className="no-image__poster"></div>
+          )}
       </Link>
-      <CardContent className="card__content">
+      <CardContent className="card__content" sx={{ flexGrow: 1 }}>
           <Typography
             variant="body1"
             component="div"
             lineHeight="1"
             fontWeight={600}
           >
-            {movie.name}
+            { movie.name ? movie.name : movie.alternativeName }
           </Typography>
           <Typography marginY="2" variant="body2">
             {movie.year}
@@ -71,11 +79,11 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
         <Box>
           <Rating
             sx={{ fontSize: 16 }}
-            name="kinopoisk-rating"
-            value={movie.rating.kp}
+            name="imdb-rating"
+            value={movie.rating.imdb}
             max={10}
             readOnly
-            aria-label="Kinopoisk rating"
+            aria-label="Imdb rating"
           />
         </Box>
       </CardContent>

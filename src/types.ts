@@ -56,3 +56,8 @@ export interface MovieDetailsType {
   };
   description: string;
 }
+
+export interface Genre {
+  name: string;
+  slug: string;
+}

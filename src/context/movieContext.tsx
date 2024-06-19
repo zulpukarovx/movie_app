@@ -12,8 +12,15 @@ interface MovieContextValue {
   fetchMovies: () => Promise<void>;
   fetchMovieDetails: (movieId: number) => Promise<void>;
   movieDetails: MovieDetailsType | null;
-  setLimit: (limit: number) => void
-  setTotalPages: (totalPages: number) => void
+  limit: number;
+  setLimit: (limit: number) => void;
+  setTotalPages: (totalPages: number) => void;
+  selectedGenre: string;
+  setSelectedGenre: (genre: string) => void;
+  rating: string;
+  setRating: React.Dispatch<React.SetStateAction<string>>;
+  year: string;
+  setYear: React.Dispatch<React.SetStateAction<string>>;
 }
 export const MovieContext = createContext<MovieContextValue | undefined>(
   undefined
@@ -28,7 +35,10 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [limit, setLimit] = useState(50)
+  const [limit, setLimit] = useState(50);
+  const [selectedGenre, setSelectedGenre] = useState('');
+  const [rating, setRating] = useState<string>("");
+  const [year, setYear] = useState<string>("")
 
   const fetchMovieDetails = async (movieId: number) => {
     setIsLoading(true);
@@ -41,21 +51,6 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
       setIsLoading(false);
     }
   };
-  //for handling the page pagination
-  // useEffect(() => {
-  //   const getMovies = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const movies = await fetchMovies();
-  //       setMovies(movies.docs);
-  //       setTotalPages(movies.pages);
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   getMovies();
-  // }, [currentPage]);
 
   return (
     <MovieContext.Provider
@@ -65,11 +60,18 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
         isLoading,
         totalPages,
         setTotalPages,
+        limit,
         setLimit,
         currentPage,
         setCurrentPage,
         fetchMovies,
         fetchMovieDetails,
+        setSelectedGenre,
+        selectedGenre,
+        rating,
+        setRating,
+        year,
+        setYear,
       }}
     >
       {children}

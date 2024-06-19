@@ -11,6 +11,10 @@
   width: 1000px;
   margin: 0 auto;
 }
+.header {
+  background-image: linear-gradient(0deg, #fdfcfb 0%, #e2d1c3 100%);
+  mask-image: linear-gradient(to bottom, white, transparent)
+}
 .navbar {
   display: flex;
   gap: 32px;
@@ -106,4 +110,11 @@
     width: 100%;
     margin-top: 16px;
   }
+}
+
+.no-image__poster {
+  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+  background-size: cover;
+  width: 320px;
+  height: 400px;
 }

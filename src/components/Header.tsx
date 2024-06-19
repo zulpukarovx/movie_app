@@ -5,7 +5,7 @@ import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlin
 
 const Header = () => {
   return (
-    <Box component="header" sx={{ py: 4 }}>
+    <Box className="header" component="header" sx={{ py: 4 }}>
       <Container maxWidth="lg">
         <Box
           component="nav"
@@ -30,7 +30,10 @@ const Header = () => {
           >
             <HomeOutlinedIcon fontSize="large" />
           </NavLink>
-          <NavLink to="/favorites">
+          <NavLink to="/favorites" 
+            style={({ isActive }) =>
+              isActive ? { filter: "drop-shadow(0 0 5px black)" } : undefined
+            }>
             <BookmarkBorderOutlinedIcon fontSize="large" />
           </NavLink>
         </Box>

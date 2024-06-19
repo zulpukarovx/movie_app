@@ -30,26 +30,26 @@ const MovieDetails = () => {
 
   return (
     <section>
-      {movieDetails && (
+      {movieDetails && movieDetails ? (
         <div className="movieDetails">
           <div className="go-back__button">
-            <Link to='/'><ArrowBackIcon sx={{fontSize: 46}} /></Link>
+            <Link to='..'><ArrowBackIcon sx={{fontSize: 46}} /></Link>
           </div>
           <header><h1 className="movieDetails__title">{movieDetails.name}</h1></header>
           <div className="movieDetails__main-content">
             <div className="movieDetails__info-left">
               <ul className="movieDetials__movie-list">
                 <li className="movieDetia__movie-item">
-                  <p className="movieDetails__movie-text">Год производства:</p>
-                  <p className="movieDetails__movie-text">{movieDetails.year}</p>
+                  <p className="movieDetails__movie-text">Название Фильма:</p>
+                  {movieDetails.name ? (<p className="movieDetails__movie-text text-right">{movieDetails.name}</p>) : (<p className="movieDetails__movie-text text-right">{movieDetails.alternativeName}</p>)}
                 </li>
                 <li className="movieDetia__movie-item">
                   <p className="movieDetails__movie-text">Страны:</p>
-                  <p className="movieDetails__movie-text text-right">{movieDetails.countries.map(country => country.name + " ")}</p>
+                  {movieDetails.countries ? (<p className="movieDetails__movie-text text-right">{movieDetails.countries.map(country => country.name + " ")}</p>) : (<p className="movieDetails__movie-text text-right">Страны не указаны</p>)}
                 </li>
                 <li className="movieDetia__movie-item">
                   <p className="movieDetails__movie-text">Жанры:</p>
-                  <p className="movieDetails__movie-text text-right">{movieDetails.genres.map(item => item.name + " ")}</p>
+                  {movieDetails.genres ? (<p className="movieDetails__movie-text text-right">{movieDetails.genres.map(item => item.name + " ")}</p>) : (<p className="movieDetails__movie-text text-right">Жанры не указаны</p>)}
                 </li>
                 <li className="movieDetia__movie-item">
                   <p className="movieDetails__movie-text">Год выпуска:</p>
@@ -58,10 +58,6 @@ const MovieDetails = () => {
                 <li className="movieDetia__movie-item">
                   <p className="movieDetails__movie-text">Возрастной рейтинг:</p>
                   <p className="movieDetails__movie-text text-right">{movieDetails.ageRating}</p>
-                </li>
-                <li className="movieDetia__movie-item">
-                  <p className="movieDetails__movie-text">Рейтинг КП:</p>
-                  <p className="movieDetails__movie-text text-right">{movieDetails.rating.kp}</p>
                 </li>
                 <li className="movieDetia__movie-item">
                   <p className="movieDetails__movie-text">Рейтинг IMDB:</p>
@@ -73,15 +69,15 @@ const MovieDetails = () => {
               {
                 isLoading ? (
                     <Skeleton variant="rectangular" width="100%"></Skeleton>
-                ) : (
+                ) : movieDetails.poster?.url ? (
                   <img className="movieDetails__poster" src={movieDetails.poster.url} alt={`Постер фильма ${movieDetails.name}`} />
-                )
+                ) : (<div className="no-image__poster"></div>)
               }
             </div>
           </div>
-          <div className="movieDetails__movie-description"><p>{movieDetails.description}</p></div>
+          {movieDetails.description ? (<div className="movieDetails__movie-description"><p>{movieDetails.description}</p></div>) : (<div className="movieDetails__movie-description"><p>Описание фильма отсутствует</p></div>)}
         </div>
-      )}
+      ) : <Skeleton variant="rectangular" width="100%" height={400} />}
     </section>
   );
 };
